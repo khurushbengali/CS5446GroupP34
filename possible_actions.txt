@@ -1,0 +1,35 @@
+basic moves
+actions = ['U', 'D', 'F', 'B', 'R', 'L']
+
+include reverse moves
+actions = ['U', 'Urev', 'D', 'Drev', 'F', 'Frev', 'B', 'Brev', 'R', 'Rrev', 'L', 'Lrev']
+
+include double turns
+actions = ['U2', 'D2', 'F2', 'B2', 'R2', 'L2']
+
+all
+actions = ['U', 'Urev', 'U2', 'D', 'Drev', 'D2', 'F', 'Frev', 'F2', 'B', 'Brev', 'B2', 'R', 'Rrev', 'R2', 'L', 'Lrev', 'L2']
+
+refer to this:
+cube_actions = {
+    'U': U,
+    'Urev': Urev,
+    'D': D,
+    'Drev': Drev,
+    'F': F,
+    'Frev': Frev,
+    'B': B,
+    'Brev': Brev,
+    'R': R,
+    'Rrev': Rrev,
+    'L': L,
+    'Lrev': Lrev,
+
+    # For 2x2, you can perform the same action twice to achieve a 180-degree rotation
+    'U2': lambda x: U(U(x)),
+    'D2': lambda x: D(D(x)),
+    'F2': lambda x: F(F(x)),
+    'B2': lambda x: B(B(x)),
+    'R2': lambda x: R(R(x)),
+    'L2': lambda x: L(L(x)),
+}
