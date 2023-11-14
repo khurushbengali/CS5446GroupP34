@@ -171,7 +171,7 @@ class Cube2x2:
 
     def aStar(self):
         if self.checkIfGoalState():
-            return self.moves, 0, 0.0
+            return self.movesList, 0, 0.0
         start = time()
         cubes = [self]
         opened = [self.state]
@@ -197,9 +197,9 @@ class Cube2x2:
                     # Creates a cube for this state and tracks the moves
                     cube = Cube2x2(state, cube0.movesList[:], cube0, depth, f)
                     cube.addMove(move)
-                    print("Depth: {} Heuristics Length: {} NodeCount: {}".format(depth, f-depth, nodeCount))
+                    # print("Depth: {} Heuristics Length: {} NodeCount: {}".format(depth, f-depth, nodeCount))
                     if cube.checkIfGoalState():
-                        return cube.movesList, nodeCount, (time() - start)*1000
+                        return cube.movesList, nodeCount, time() - start
                     # Inserts the state depending on its heuristic
                     for i in range(len(cubes) + 1):
                         if i == len(cubes):
@@ -245,14 +245,20 @@ class Cube2x2:
 def main():
     print("A Star")
     cubeAStar = Cube2x2()
-    cubeAStar.state = cubeAStar.executeMoves("R U F L D R'")
-    moves, nodeCount, time = cubeAStar.aStar()
-    print(" ".join(moves))
-    cubeAStar.printMultipleMoves(moves)
-    print("NodeCount: ", nodeCount)
-    print("Time: ", round(time, 2), "msecs")
-    print()
-
+    shuffledMovesCount = 6
+    nodeCountAvg = 0
+    timeAvg = 0
+    for i in range(100):
+        shuffledCube = cubeAStar.shuffleCube(shuffledMovesCount)
+        moves, nodeCount, time = shuffledCube.aStar()
+        # print(" ".join(moves))
+        # shuffledCube.printMultipleMoves(moves)
+        # print("NodeCount: ", nodeCount)
+        # print("Time: ", round(time, 2), "msecs")
+        nodeCountAvg += nodeCount
+        timeAvg += time
+    print("Average Time and NodeCount for ", shuffledMovesCount, ": ", round(timeAvg/100, 5), ", ", nodeCountAvg/100)
+    
 if __name__ == "__main__":
     main()
 
